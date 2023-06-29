@@ -1,24 +1,20 @@
-import Head from 'next/head';
-import { Inter } from 'next/font/google';
-import styles from '@/styles/Home.module.css';
+import React from 'react';
+import Link from 'next/link';
 
-const inter = Inter({ subsets: ['latin'] });
-
-export default function Home() {
+function HomePage() {
   return (
-    <>
-      <Head>
-        <title>Create Next App</title>
-        <meta
-          name="description"
-          content="Generated using create next app, by @porziopablo"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <h1 className={styles.title}>Welcome to Next.js!</h1>
-      </main>
-    </>
+    <div>
+      <h1>Home Page</h1>
+      <ul>
+        <li>
+          <Link href="/portfolio">Portfolio</Link>
+        </li>
+        <li>
+          <Link href="/clients">Clients</Link>
+        </li>
+      </ul>
+    </div>
   );
 }
+
+export default HomePage;
