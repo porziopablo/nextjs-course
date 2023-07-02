@@ -1,20 +1,19 @@
 // vendors
 import React from 'react';
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 
 // styles
 import classes from './ButtonLink.module.css';
 
-interface ButtonLinkProps {
-  href: string;
-  children: React.ReactNode;
+interface ButtonLinkProps extends LinkProps {
+  href: any;
 }
 
 function ButtonLink(props: ButtonLinkProps) {
-  const { href, children } = props;
+  const { children, ...rest } = props;
 
   return (
-    <Link className={classes.btn} href={href}>
+    <Link className={classes.btn} {...rest}>
       {children}
     </Link>
   );
