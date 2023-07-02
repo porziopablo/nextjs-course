@@ -13,15 +13,16 @@ interface SelectProps {
   id: string;
   label: string;
   options: SelectOption[];
+  customRef?: React.LegacyRef<HTMLSelectElement>;
 }
 
 function Select(props: SelectProps) {
-  const { id, label, options = [] } = props;
+  const { id, label, customRef, options = [] } = props;
 
   return (
     <div className={classes.control}>
       <label htmlFor={id}>{label}</label>
-      <select id={id}>
+      <select ref={customRef} id={id}>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
             {option.label}

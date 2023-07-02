@@ -1,5 +1,5 @@
 // vendors
-import React from 'react';
+import React, { useRef } from 'react';
 
 // components
 import Button from '@/components/ui/Button/Button';
@@ -28,12 +28,49 @@ const DUMMY_MONTHS = [
   { id: '12', label: 'December' },
 ];
 
-function EventSearch() {
+export interface SearchValues {
+  year: string;
+  month: string;
+}
+
+interface EventSearchProps {
+  onSearch: (values: SearchValues) => void;
+}
+
+function EventSearch(props: EventSearchProps) {
+  const { onSearch } = props;
+
+  const yearInputRef = useRef<HTMLSelectElement>(null);
+  const monthInputRef = useRef<HTMLSelectElement>(null);
+
+  function onSubmitHandler(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const selectedYear = yearInputRef.current?.value;
+    const selectedMonth = monthInputRef.current?.value;
+
+    /* We need two params to filter events, otherwise it will suppose
+    that the only param is an event id. */
+    if (!selectedYear || !selectedMonth) return;
+
+    onSearch({ year: selectedYear, month: selectedMonth });
+  }
+
   return (
-    <form className={classes.form}>
+    <form className={classes.form} onSubmit={onSubmitHandler}>
       <div className={classes.controls}>
-        <Select id="year" label="Year" options={DUMMY_YEARS} />
-        <Select id="month" label="Month" options={DUMMY_MONTHS} />
+        <Select
+          customRef={yearInputRef}
+          id="year"
+          label="Year"
+          options={DUMMY_YEARS}
+        />
+        <Select
+          customRef={monthInputRef}
+          id="month"
+          label="Month"
+          options={DUMMY_MONTHS}
+        />
       </div>
       <Button>Find Events</Button>
     </form>
