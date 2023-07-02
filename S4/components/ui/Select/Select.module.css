@@ -1,0 +1,25 @@
+.control {
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.control label {
+  font-weight: bold;
+}
+
+.control select {
+  font: inherit;
+  background-color: white;
+  border-radius: 6px;
+  width: 70%;
+  padding: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .control select {
+    width: 100%;
+  }
+}

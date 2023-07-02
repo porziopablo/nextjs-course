@@ -3,6 +3,7 @@ import React from 'react';
 
 // components
 import EventList from '@/components/events/EventList/EventList';
+import EventSearch from '@/components/events/EventSearch/EventSearch';
 
 // repositories
 import { getAllEvents } from '@/dummy-data';
@@ -11,9 +12,10 @@ function EventsPage() {
   const events = getAllEvents();
 
   return (
-    <div>
+    <>
+      <EventSearch />
       <EventList events={events} />
-    </div>
+    </>
   );
 }
 
