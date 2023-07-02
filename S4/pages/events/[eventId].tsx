@@ -3,7 +3,9 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 // components
-import EventDetail from '@/content/events/EventDetail';
+import EventSummary from '@/components/events/EventDetail/EventSummary';
+import EventLogistics from '@/components/events/EventDetail/EventLogistics';
+import EventContent from '@/components/events/EventDetail/EventContent';
 
 // repositories
 import { getEventById } from '@/dummy-data';
@@ -17,7 +19,22 @@ function EventDetailPage() {
 
   if (!event) return <p>No event found!</p>;
 
-  return <EventDetail event={event} />;
+  return (
+    <>
+      <EventSummary title={event.title} />
+      <EventLogistics
+        data={{
+          date: event.date,
+          address: event.location,
+          image: event.image,
+          imageAlt: event.title,
+        }}
+      />
+      <EventContent>
+        <p>{event.description}</p>
+      </EventContent>
+    </>
+  );
 }
 
 export default EventDetailPage;
