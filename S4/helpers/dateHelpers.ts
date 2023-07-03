@@ -3,10 +3,13 @@
  * @param date the date to be formatted
  * @returns a formatted date string
  */
-export function getHumanReadableDate(date: Date | string | number): string {
+export function getHumanReadableDate(
+  date: Date | string | number,
+  hideDay?: boolean
+): string {
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric',
+    day: hideDay ? undefined : 'numeric',
   });
 }

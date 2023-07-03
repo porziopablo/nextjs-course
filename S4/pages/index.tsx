@@ -10,11 +10,7 @@ import { getFeaturedEvents } from '@/dummy-data';
 function HomePage() {
   const events = getFeaturedEvents();
 
-  return (
-    <div>
-      <EventList events={events} />
-    </div>
-  );
+  return <EventList events={events} />;
 }
 
 export default HomePage;

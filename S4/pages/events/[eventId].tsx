@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import EventSummary from '@/components/events/EventDetail/EventSummary';
 import EventLogistics from '@/components/events/EventDetail/EventLogistics';
 import EventContent from '@/components/events/EventDetail/EventContent';
+import ErrorAlert from '@/components/ui/ErrorAlert/ErrorAlert';
 
 // repositories
 import { getEventById } from '@/dummy-data';
@@ -17,7 +18,12 @@ function EventDetailPage() {
   const { query } = useRouter<`${APP_PAGES.EVENT_DETAIL}`>();
   const event = getEventById(query.eventId || '');
 
-  if (!event) return <p>No event found!</p>;
+  if (!event)
+    return (
+      <ErrorAlert>
+        <p>No event found!</p>
+      </ErrorAlert>
+    );
 
   return (
     <>
