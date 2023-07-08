@@ -7,14 +7,16 @@ import { Product } from '@/types/entities/product';
 import { APP_PAGES } from '@/types/internal/pages';
 
 // repositories
-import { getProductById } from '@/repositories/products';
+import { getAllProducts, getProductById } from '@/repositories/products';
 
 interface ProductDetailPageProps {
-  product: Product;
+  product?: Product;
 }
 
 export default function ProductDetailPage(props: ProductDetailPageProps) {
   const { product } = props;
+
+  if (!product) return <p>Loading...</p>;
 
   return (
     <>
@@ -36,12 +38,11 @@ export async function getStaticProps({ params }: Context) {
 }
 
 export async function getStaticPaths() {
-  return {
-    paths: [
-      { params: { productId: 'p1' } },
-      { params: { productId: 'p2' } },
-      { params: { productId: 'p3' } },
-    ],
-    fallback: false,
-  };
+  const products = await getAllProducts();
+
+  const paths = products.map((product) => ({
+    params: { productId: product.id },
+  }));
+
+  return { paths, fallback: true };
 }
