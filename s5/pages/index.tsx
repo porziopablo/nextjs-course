@@ -1,3 +1,9 @@
+// vendors
+import React from 'react';
+import fs from 'fs/promises';
+import path from 'path';
+
+// types
 import { Product } from '@/types/entities/product';
 
 interface HomePageProps {
@@ -15,9 +21,12 @@ export default function HomePage(props: HomePageProps) {
 }
 
 export async function getStaticProps() {
+  const filePath = path.join(process.cwd(), 'data', 'dummy-backend.json');
+  const rawData = await fs.readFile(filePath);
+  const data = JSON.parse(rawData.toString());
+
   return {
-    props: {
-      products: [{ id: 1, title: 'Product 1' }],
-    },
+    props: { products: data.products },
+    revalidate: 10, // seconds
   };
 }
