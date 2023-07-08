@@ -15,7 +15,7 @@ interface HomePageProps {
 function renderProduct(product: Product) {
   return (
     <li key={product.id}>
-      <Link href={`/${product.id}` as any}>{product.title}</Link>
+      <Link href={`/product/${product.id}` as any}>{product.title}</Link>
     </li>
   );
 }
