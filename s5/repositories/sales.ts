@@ -1,3 +1,7 @@
+// vendors
+import useSWR from 'swr';
+
+// types
 import { Sale } from '@/types/entities/sale';
 
 export async function getSales(): Promise<Sale[]> {
@@ -15,4 +19,10 @@ export async function getSales(): Promise<Sale[]> {
   }
 
   return sales;
+}
+
+export function useSales() {
+  const response = useSWR<Sale[]>(process.env.NEXT_PUBLIC_SALES_API, getSales);
+
+  return response;
 }
