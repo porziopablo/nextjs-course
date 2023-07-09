@@ -43,5 +43,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 # dudas
 
+- leer mas de useSWR
 - fast refresh error al correr dev y ya tener la pagina en el navegador de otra ejecucion anterior https://nextjs.org/docs/messages/fast-refresh-reload
 - por que usar ...slug en vez de filtrar directo en la misma pagina, con un hook x ej?
