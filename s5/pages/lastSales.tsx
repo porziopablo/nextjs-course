@@ -1,11 +1,15 @@
 // vendors
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 // repositories
-import { useSales } from '@/repositories/sales';
+import { getSales, useSales } from '@/repositories/sales';
 
 // types
 import { Sale } from '@/types/entities/sale';
+
+interface LastSalesProps {
+  initialSales: Sale[];
+}
 
 function renderSale(sale: Sale) {
   return (
@@ -15,14 +19,23 @@ function renderSale(sale: Sale) {
   );
 }
 
-function lastSales() {
-  const { data = [], error, isLoading } = useSales();
+export default function LastSalesPage({ initialSales }: LastSalesProps) {
+  const [sales, setSales] = useState(initialSales);
+  const { data = [], error } = useSales();
+
+  useEffect(() => {
+    if (data.length) setSales(data);
+  }, [data]);
 
   if (error) return <p>Failed to load</p>;
 
-  if (isLoading) return <p>Loading...</p>;
+  if (!sales.length) return <p>Loading...</p>;
 
-  return <ul>{data.map(renderSale)}</ul>;
+  return <ul>{sales.map(renderSale)}</ul>;
 }
 
-export default lastSales;
+export async function getStaticProps() {
+  const initialSales = await getSales();
+
+  return { props: { initialSales }, revalidate: 10 };
+}
