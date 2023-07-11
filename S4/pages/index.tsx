@@ -4,13 +4,21 @@ import React from 'react';
 // components
 import EventList from '@/components/events/EventList/EventList';
 
+// types
+import { Event } from '@/types/entities/events';
+
 // repositories
-import { getFeaturedEvents } from '@/dummy-data';
+import { getFeaturedEvents } from '@/repositories/events';
 
-function HomePage() {
-  const events = getFeaturedEvents();
+interface HomePageProps {
+  events: Event[];
+}
 
+export default function HomePage({ events }: HomePageProps) {
   return <EventList events={events} />;
 }
 
-export default HomePage;
+export async function getStaticProps() {
+  const events = await getFeaturedEvents();
+  return { props: { events }, revalidate: 1800 };
+}
