@@ -1,13 +1,12 @@
 // vendors
 import React from 'react';
-import { GetServerSidePropsContext } from 'nextjs-routes';
+import { useRouter } from 'next/router';
 
 // types
 import { APP_PAGES } from '@/types/internal/pages';
-import { Event } from '@/types/entities/events';
 
 // repositories
-import { DateFilter, getFilteredEvents } from '@/repositories/events';
+import { useFilteredEvents } from '@/repositories/events';
 
 // components
 import EventList from '@/components/events/EventList/EventList';
@@ -15,16 +14,14 @@ import ResultsTitle from '@/components/events/ResultsTitle/ResultsTitle';
 import ButtonLink from '@/components/ui/ButtonLink/ButtonLink';
 import ErrorAlert from '@/components/ui/ErrorAlert/ErrorAlert';
 
-interface FilteredEventsPageProps {
-  events?: Event[];
-  invalidFilters?: boolean;
-  filters?: DateFilter;
-}
+export default function FilteredEventsPage() {
+  const router = useRouter<`${APP_PAGES.EVENT_FILTER}`>();
+  const { slug = [] } = router.query;
 
-export default function FilteredEventsPage(props: FilteredEventsPageProps) {
-  const { events = [], invalidFilters, filters } = props;
+  const year = +slug[0];
+  const month = +slug[1];
 
-  if (invalidFilters) {
+  if (isNaN(year) || isNaN(month)) {
     return (
       <>
         <ErrorAlert>
@@ -37,7 +34,11 @@ export default function FilteredEventsPage(props: FilteredEventsPageProps) {
     );
   }
 
-  if (!events.length) {
+  const { data = [], isLoading } = useFilteredEvents({ year, month });
+
+  if (isLoading) return <p className="center">Loading...</p>;
+
+  if (!data.length) {
     return (
       <>
         <ErrorAlert>
@@ -52,25 +53,8 @@ export default function FilteredEventsPage(props: FilteredEventsPageProps) {
 
   return (
     <>
-      {filters ? (
-        <ResultsTitle date={new Date(filters.year, filters.month - 1)} />
-      ) : null}
-      <EventList events={events} />
+      <ResultsTitle date={new Date(year, month - 1)} />
+      <EventList events={data} />
     </>
   );
-}
-
-type Context = GetServerSidePropsContext<`${APP_PAGES.EVENT_FILTER}`>;
-
-export async function getServerSideProps(context: Context) {
-  const { params } = context;
-
-  const year = +params.slug[0];
-  const month = +params.slug[1];
-
-  if (isNaN(year) || isNaN(month)) return { props: { invalidFilters: true } };
-
-  const events = await getFilteredEvents({ year, month });
-
-  return { props: { events, filters: { year, month } } };
 }

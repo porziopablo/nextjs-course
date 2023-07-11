@@ -1,3 +1,6 @@
+// vendors
+import useSWR from 'swr';
+
 // types
 import { Event } from '@/types/entities/events';
 
@@ -46,4 +49,10 @@ export async function getFilteredEvents(dateFilter: DateFilter) {
   });
 
   return filteredEvents;
+}
+
+export function useFilteredEvents(dateFilter: DateFilter) {
+  return useSWR<Event[]>(process.env.NEXT_PUBLIC_EVENTS_API, () =>
+    getFilteredEvents(dateFilter)
+  );
 }
