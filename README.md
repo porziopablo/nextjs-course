@@ -40,6 +40,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 # notas
 
 - use typescript, justificar, libreria next-js routes
+- firebase realtime db, db.json
 
 # dudas
 
