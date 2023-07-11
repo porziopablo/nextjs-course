@@ -1,6 +1,13 @@
 // types
 import { Event } from '@/types/entities/events';
 
+/*
+ * NOTE: since this is not a Firebase course, and we only have a few
+ * events, we will retrieve all of them from the API and filter them locally.
+ * In a real-world application, we would use a database query to retrieve
+ * only the events we need.
+ */
+
 export async function getAllEvents(): Promise<Event[]> {
   const response = await fetch(process.env.NEXT_PUBLIC_EVENTS_API || '');
   const rawData = await response.json();
@@ -15,4 +22,9 @@ export async function getAllEvents(): Promise<Event[]> {
 export async function getFeaturedEvents(): Promise<Event[]> {
   const allEvents = await getAllEvents();
   return allEvents.filter((event) => event.isFeatured);
+}
+
+export async function getEventById(id: string): Promise<Event | null> {
+  const allEvents = await getAllEvents();
+  return allEvents.find((event) => event.id === id) || null;
 }

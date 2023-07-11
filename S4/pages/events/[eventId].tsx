@@ -1,28 +1,29 @@
 // vendors
 import React from 'react';
-import { useRouter } from 'next/router';
+import { GetServerSidePropsContext } from 'nextjs-routes';
 
 // components
 import EventSummary from '@/components/events/EventDetail/EventSummary';
 import EventLogistics from '@/components/events/EventDetail/EventLogistics';
 import EventContent from '@/components/events/EventDetail/EventContent';
-import ErrorAlert from '@/components/ui/ErrorAlert/ErrorAlert';
 
 // repositories
-import { getEventById } from '@/dummy-data';
+import { getEventById, getFeaturedEvents } from '@/repositories/events';
 
 // types
 import { APP_PAGES } from '@/types/internal/pages';
+import { Event } from '@/types/entities/events';
 
-function EventDetailPage() {
-  const { query } = useRouter<`${APP_PAGES.EVENT_DETAIL}`>();
-  const event = getEventById(query.eventId || '');
+interface EventDetailPageProps {
+  event?: Event;
+}
 
+export default function EventDetailPage({ event }: EventDetailPageProps) {
   if (!event)
     return (
-      <ErrorAlert>
-        <p>No event found!</p>
-      </ErrorAlert>
+      <div className="center">
+        <p>Loading...</p>
+      </div>
     );
 
   return (
@@ -43,4 +44,18 @@ function EventDetailPage() {
   );
 }
 
-export default EventDetailPage;
+type Context = GetServerSidePropsContext<`${APP_PAGES.EVENT_DETAIL}`>;
+
+export async function getStaticPaths() {
+  const events = await getFeaturedEvents();
+  const paths = events.map((event) => ({ params: { eventId: event.id } }));
+  return { paths, fallback: 'blocking' };
+}
+
+export async function getStaticProps({ params }: Context) {
+  const event = await getEventById(params.eventId);
+
+  if (!event) return { notFound: true };
+
+  return { props: { event }, revalidate: 30 };
+}

@@ -9,14 +9,18 @@ import EventSearch, {
 } from '@/components/events/EventSearch/EventSearch';
 
 // repositories
-import { getAllEvents } from '@/dummy-data';
+import { getAllEvents } from '@/repositories/events';
 
 // types
 import { APP_PAGES } from '@/types/internal/pages';
+import { Event } from '@/types/entities/events';
 
-function EventsPage() {
+interface EventsPageProps {
+  events: Event[];
+}
+
+export default function EventsPage({ events }: EventsPageProps) {
   const router = useRouter();
-  const events = getAllEvents();
 
   function onSearchHandler(values: SearchValues) {
     router.push({
@@ -33,4 +37,7 @@ function EventsPage() {
   );
 }
 
-export default EventsPage;
+export async function getStaticProps() {
+  const events = await getAllEvents();
+  return { props: { events }, revalidate: 60 };
+}
