@@ -13,6 +13,7 @@ import EventList from '@/components/events/EventList/EventList';
 import ResultsTitle from '@/components/events/ResultsTitle/ResultsTitle';
 import ButtonLink from '@/components/ui/ButtonLink/ButtonLink';
 import ErrorAlert from '@/components/ui/ErrorAlert/ErrorAlert';
+import { PageHead } from '@/components/layout/Head/Head';
 
 export default function FilteredEventsPage() {
   const router = useRouter<`${APP_PAGES.EVENT_FILTER}`>();
@@ -21,9 +22,17 @@ export default function FilteredEventsPage() {
   const year = +slug[0];
   const month = +slug[1];
 
+  const head = (
+    <PageHead
+      title="Filtered Events"
+      description={`All events for ${month}/${year}`}
+    />
+  );
+
   if (isNaN(year) || isNaN(month)) {
     return (
       <>
+        {head}
         <ErrorAlert>
           <p>Invalid filter. Please adjust your values!</p>
         </ErrorAlert>
@@ -41,6 +50,7 @@ export default function FilteredEventsPage() {
   if (!data.length) {
     return (
       <>
+        {head}
         <ErrorAlert>
           <p>No events found for the chosen filter!</p>
         </ErrorAlert>
@@ -53,6 +63,7 @@ export default function FilteredEventsPage() {
 
   return (
     <>
+      {head}
       <ResultsTitle date={new Date(year, month - 1)} />
       <EventList events={data} />
     </>

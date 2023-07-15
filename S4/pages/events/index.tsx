@@ -7,6 +7,7 @@ import EventList from '@/components/events/EventList/EventList';
 import EventSearch, {
   SearchValues,
 } from '@/components/events/EventSearch/EventSearch';
+import { PageHead } from '@/components/layout/Head/Head';
 
 // repositories
 import { getAllEvents } from '@/repositories/events';
@@ -31,6 +32,7 @@ export default function EventsPage({ events }: EventsPageProps) {
 
   return (
     <>
+      <PageHead title="All Events" description="Find a lot of great events" />
       <EventSearch onSearch={onSearchHandler} />
       <EventList events={events} />
     </>

@@ -6,6 +6,7 @@ import { GetServerSidePropsContext } from 'nextjs-routes';
 import EventSummary from '@/components/events/EventDetail/EventSummary';
 import EventLogistics from '@/components/events/EventDetail/EventLogistics';
 import EventContent from '@/components/events/EventDetail/EventContent';
+import { PageHead } from '@/components/layout/Head/Head';
 
 // repositories
 import { getEventById, getFeaturedEvents } from '@/repositories/events';
@@ -28,6 +29,7 @@ export default function EventDetailPage({ event }: EventDetailPageProps) {
 
   return (
     <>
+      <PageHead title={event.title} description={event.description} />
       <EventSummary title={event.title} />
       <EventLogistics
         data={{

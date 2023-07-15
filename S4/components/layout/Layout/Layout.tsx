@@ -3,6 +3,7 @@ import React from 'react';
 
 // components
 import MainHeader from '../MainHeader/MainHeader';
+import GeneralHead from '../Head/Head';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ function Layout(props: LayoutProps) {
 
   return (
     <>
+      <GeneralHead />
       <MainHeader />
       <main>{children}</main>
     </>
