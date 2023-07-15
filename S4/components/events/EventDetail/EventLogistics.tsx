@@ -1,5 +1,6 @@
 // vendors
 import React, { useMemo } from 'react';
+import Image from 'next/image';
 
 // components
 import AddressIcon from '@/components/icons/Address';
@@ -24,7 +25,7 @@ interface EventLogisticsProps {
 
 function EventLogistics(props: EventLogisticsProps) {
   const { data } = props;
-  const { date, address, image, imageAlt } = data;
+  const { date, address, image = '', imageAlt = '' } = data;
 
   const humanReadableDate = useMemo(() => getHumanReadableDate(date), [date]);
   const addressText = useMemo(() => getFormattedAddress(address), [address]);
@@ -32,7 +33,7 @@ function EventLogistics(props: EventLogisticsProps) {
   return (
     <section className={classes.logistics}>
       <div className={classes.image}>
-        <img src={image} alt={imageAlt} />
+        <Image src={image} alt={imageAlt} width={400} height={400} />
       </div>
       <ul className={classes.list}>
         <LogisticsItem icon={<DateIcon />}>
