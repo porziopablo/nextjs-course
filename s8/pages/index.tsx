@@ -9,13 +9,10 @@ import { Feedback } from '@/types/entities/feedback';
 
 // components
 import FeedbackForm from '@/components/feedback/Form';
+import FeedbackItem from '@/components/feedback/FeedbackItem';
 
 function renderFeedbackItem(item: Feedback) {
-  return (
-    <li key={item.id}>
-      {item.email} - {item.feedback}
-    </li>
-  );
+  return <FeedbackItem key={item.id} item={item} />;
 }
 
 function HomePage() {

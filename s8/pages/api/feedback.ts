@@ -7,11 +7,11 @@ import path from 'path';
 import { FeedbackRequest } from '@/types/requests/feedback';
 import { Feedback } from '@/types/entities/feedback';
 
-function buildFeedbackPath() {
+export function buildFeedbackPath() {
   return path.join(process.cwd(), 'data', 'feedback.json');
 }
 
-function extractFeedback(filePath: string) {
+export function extractFeedback(filePath: string) {
   const file = fs.readFileSync(filePath);
   const data: Feedback[] = JSON.parse(file.toString()) || [];
 
