@@ -16,3 +16,9 @@ h5,
 h6 {
   font-family: 'Lato', sans-serif;
 }
+
+.input {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+}
