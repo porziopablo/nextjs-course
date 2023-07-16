@@ -13,8 +13,14 @@ export function sendFeedback(data: FeedbackRequest) {
   });
 }
 
-export async function getFeedback(): Promise<Feedback[]> {
+export async function getAllFeedback(): Promise<Feedback[]> {
   return fetch(API_ROUTES.FEEDBACK)
+    .then((res) => res.json())
+    .then((data) => data.data);
+}
+
+export async function getFeedbackById(id: string): Promise<Feedback> {
+  return fetch(`${API_ROUTES.FEEDBACK}/${id}`)
     .then((res) => res.json())
     .then((data) => data.data);
 }

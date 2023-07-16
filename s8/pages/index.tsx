@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 // repositories
-import { getFeedback, sendFeedback } from '@/repositories/feedback';
+import { getAllFeedback, sendFeedback } from '@/repositories/feedback';
 
 // types
 import { Feedback } from '@/types/entities/feedback';
@@ -19,7 +19,7 @@ function HomePage() {
   const [feedbackItems, setFeedbackItems] = useState<Feedback[]>([]);
 
   async function loadFeedbackHandler() {
-    const feedback = await getFeedback();
+    const feedback = await getAllFeedback();
     setFeedbackItems(feedback);
   }
 
