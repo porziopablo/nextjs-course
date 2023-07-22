@@ -41,6 +41,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - use typescript, justificar, libreria next-js routes
 - firebase realtime db, db.json
+- mongodb
 - entendi mas de seo (ssr, meta), optimizacion imagenes
 
 # dudas
