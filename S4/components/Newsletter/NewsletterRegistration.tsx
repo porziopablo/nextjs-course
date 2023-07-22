@@ -1,17 +1,21 @@
 // vendors
-import React from 'react';
+import React, { useState } from 'react';
+
+// repositories
+import { subscribeToNewsletter } from '@/repositories/newsletter';
 
 // styles
 import classes from './NewsletterRegistration.module.css';
 
 function NewsletterRegistration() {
+  const [email, setEmail] = useState('');
+
   function registrationHandler(event: React.FormEvent) {
     event.preventDefault();
-
-    // fetch user input (state or refs)
-    // optional: validate input
-    // send valid data to API
+    subscribeToNewsletter({ email });
   }
+
+  const isValid = email.includes('@');
 
   return (
     <section className={classes.newsletter}>
@@ -23,8 +27,9 @@ function NewsletterRegistration() {
             id="email"
             placeholder="Your email"
             aria-label="Your email"
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <button>Register</button>
+          <button disabled={!isValid}>Register</button>
         </div>
       </form>
     </section>

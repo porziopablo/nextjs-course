@@ -2,13 +2,13 @@
 import React, { useRef, useState } from 'react';
 
 // types
-import { CommentData } from '@/types/requests/comments';
+import { NewCommentData } from '@/types/requests/comments';
 
 // styles
 import classes from './NewComment.module.css';
 
 interface NewCommentProps {
-  onAddComment: (commentData: CommentData) => void;
+  onAddComment: (commentData: NewCommentData) => void;
 }
 
 function NewComment(props: NewCommentProps) {
@@ -24,12 +24,12 @@ function NewComment(props: NewCommentProps) {
     event.preventDefault();
 
     const email = (emailInputRef.current?.value || '').trim();
-    const name = (nameInputRef.current?.value || '').trim();
+    const username = (nameInputRef.current?.value || '').trim();
     const text = (commentInputRef.current?.value || '').trim();
 
-    if (!email.includes('@') || !name || !text) return setIsInvalid(true);
+    if (!email.includes('@') || !username || !text) return setIsInvalid(true);
 
-    onAddComment({ email, name, text });
+    onAddComment({ email, username, text });
   }
 
   return (

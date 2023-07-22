@@ -1,5 +1,5 @@
-export interface CommentData {
+export interface NewCommentData {
   email: string;
-  name: string;
+  username: string;
   text: string;
 }

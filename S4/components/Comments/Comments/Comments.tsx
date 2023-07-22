@@ -1,12 +1,16 @@
 // vendors
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // components
 import CommentList from '../CommentList/CommentList';
 import NewComment from '../NewComment/NewComment';
 
 // types
-import { CommentData } from '@/types/requests/comments';
+import { NewCommentData } from '@/types/requests/comments';
+import { Comment } from '@/types/entities/comments';
+
+// repositories
+import { getComments, sendComment } from '@/repositories/comments';
 
 // styles
 import classes from './Comments.module.css';
@@ -19,14 +23,24 @@ function Comments(props: CommentsProps) {
   const { eventId } = props;
 
   const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  function fetchComments() {
+    getComments(eventId).then(setComments);
+  }
 
   function toggleCommentsHandler() {
     setShowComments((prevStatus) => !prevStatus);
   }
 
-  function addCommentHandler(commentData: CommentData) {
-    // send data to API
+  async function addCommentHandler(commentData: NewCommentData) {
+    const comment = await sendComment(eventId, commentData);
+    setComments((prevComments) => [...prevComments, comment]);
   }
+
+  useEffect(() => {
+    showComments && fetchComments();
+  }, [showComments]);
 
   return (
     <section className={classes.comments}>
@@ -34,7 +48,7 @@ function Comments(props: CommentsProps) {
         {showComments ? 'Hide' : 'Show'} Comments
       </button>
       {showComments && <NewComment onAddComment={addCommentHandler} />}
-      {showComments && <CommentList />}
+      {showComments && <CommentList comments={comments} />}
     </section>
   );
 }
