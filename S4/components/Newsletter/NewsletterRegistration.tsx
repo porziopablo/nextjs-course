@@ -1,5 +1,5 @@
 // vendors
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 
 // repositories
 import { subscribeToNewsletter } from '@/repositories/newsletter';
@@ -8,14 +8,17 @@ import { subscribeToNewsletter } from '@/repositories/newsletter';
 import classes from './NewsletterRegistration.module.css';
 
 function NewsletterRegistration() {
-  const [email, setEmail] = useState('');
+  const emailInputRef = useRef<HTMLInputElement>(null);
 
-  function registrationHandler(event: React.FormEvent) {
+  async function registrationHandler(event: React.FormEvent) {
     event.preventDefault();
-    subscribeToNewsletter({ email });
-  }
 
-  const isValid = email.includes('@');
+    const email = (emailInputRef.current?.value || '').trim();
+
+    await subscribeToNewsletter({ email });
+
+    emailInputRef.current!.value = '';
+  }
 
   return (
     <section className={classes.newsletter}>
@@ -27,9 +30,9 @@ function NewsletterRegistration() {
             id="email"
             placeholder="Your email"
             aria-label="Your email"
-            onChange={(e) => setEmail(e.target.value)}
+            ref={emailInputRef}
           />
-          <button disabled={!isValid}>Register</button>
+          <button>Register</button>
         </div>
       </form>
     </section>

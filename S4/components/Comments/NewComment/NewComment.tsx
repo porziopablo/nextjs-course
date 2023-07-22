@@ -27,8 +27,9 @@ function NewComment(props: NewCommentProps) {
     const username = (nameInputRef.current?.value || '').trim();
     const text = (commentInputRef.current?.value || '').trim();
 
-    if (!email.includes('@') || !username || !text) return setIsInvalid(true);
+    if (!email || !username || !text) return setIsInvalid(true);
 
+    setIsInvalid(false);
     onAddComment({ email, username, text });
   }
 

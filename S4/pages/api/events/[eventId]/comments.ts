@@ -23,7 +23,6 @@ const DUMMY_COMMENTS: Comment[] = [
 ];
 
 function handleGet(req: NextApiRequest, res: NextApiResponse) {
-  const eventId = req.query.eventId;
   res.status(200).json({ message: 'success', data: DUMMY_COMMENTS });
 }
 
@@ -49,6 +48,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       break;
     case 'POST':
       handlePost(req, res);
+      break;
     default:
       res.status(404).json({ message: 'Not found' });
   }
