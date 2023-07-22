@@ -6,25 +6,31 @@ import { MongoClient } from 'mongodb';
 import { NewCommentData } from '@/types/requests/comments';
 import { Comment } from '@/types/entities/comments';
 
-const DUMMY_COMMENTS: Comment[] = [
-  {
-    id: 'c1',
-    eventId: 'e1',
-    email: 'max@gmai.com',
-    username: 'Max',
-    text: 'A first comment!',
-  },
-  {
-    id: 'c2',
-    eventId: 'e1',
-    email: 'manuel@gmail.com',
-    username: 'Manuel',
-    text: 'A second comment!',
-  },
-];
-
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json({ message: 'success', data: DUMMY_COMMENTS });
+  try {
+    const eventId = req.query.eventId as string;
+    const client = await MongoClient.connect(
+      process.env.NEXT_PUBLIC_MONGODB_URI as string
+    );
+    const db = client.db('events');
+    const collection = db.collection('comments');
+
+    const results = await collection
+      .find({ eventId })
+      .sort({ _id: -1 })
+      .toArray();
+
+    const data = results.map((result) => ({
+      ...result,
+      id: result._id.toString(),
+    }));
+
+    res.status(200).json({ message: 'success', data });
+    client.close();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 }
 
 async function handlePost(req: NextApiRequest, res: NextApiResponse) {
