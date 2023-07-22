@@ -5,9 +5,13 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { NewsletterSubscriptionData } from '@/types/requests/newsletter';
 
 function handlePost(req: NextApiRequest, res: NextApiResponse) {
-  const newsletterData: NewsletterSubscriptionData = req.body;
+  const { email }: NewsletterSubscriptionData = req.body;
 
-  console.log(newsletterData);
+  if (!email?.includes('@')) {
+    return res.status(422).json({ message: 'Invalid email' });
+  }
+
+  console.log({ email });
 
   res.status(201).json({ message: 'success' });
 }

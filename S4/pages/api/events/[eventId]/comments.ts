@@ -29,6 +29,11 @@ function handleGet(req: NextApiRequest, res: NextApiResponse) {
 function handlePost(req: NextApiRequest, res: NextApiResponse) {
   const eventId = req.query.eventId;
   const commentData: NewCommentData = req.body;
+  const { email = '', username = '', text = '' } = commentData;
+
+  if (!email.includes('@') || !username.trim() || !text.trim()) {
+    return res.status(422).json({ message: 'Invalid request' });
+  }
 
   const newComment = {
     id: new Date().toISOString(),
