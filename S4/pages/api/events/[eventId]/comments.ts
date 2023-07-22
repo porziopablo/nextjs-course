@@ -1,5 +1,6 @@
 // vendors
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { MongoClient } from 'mongodb';
 
 // types
 import { NewCommentData } from '@/types/requests/comments';
@@ -22,37 +23,51 @@ const DUMMY_COMMENTS: Comment[] = [
   },
 ];
 
-function handleGet(req: NextApiRequest, res: NextApiResponse) {
+async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   res.status(200).json({ message: 'success', data: DUMMY_COMMENTS });
 }
 
-function handlePost(req: NextApiRequest, res: NextApiResponse) {
-  const eventId = req.query.eventId;
-  const commentData: NewCommentData = req.body;
-  const { email = '', username = '', text = '' } = commentData;
+async function handlePost(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const eventId = req.query.eventId as string;
+    const commentData: NewCommentData = req.body;
+    const { email = '', username = '', text = '' } = commentData;
 
-  if (!email.includes('@') || !username.trim() || !text.trim()) {
-    return res.status(422).json({ message: 'Invalid request' });
+    if (!email.includes('@') || !username.trim() || !text.trim()) {
+      return res.status(422).json({ message: 'Invalid request' });
+    }
+
+    const client = await MongoClient.connect(
+      process.env.NEXT_PUBLIC_MONGODB_URI as string
+    );
+    const db = client.db('events');
+    const collection = db.collection('comments');
+    const result = await collection.insertOne({ eventId, ...commentData });
+
+    const data: Comment = {
+      id: result.insertedId.toString(),
+      eventId,
+      ...commentData,
+    };
+
+    res.status(201).json({ message: 'success', data });
+    client.close();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
   }
-
-  const newComment = {
-    id: new Date().toISOString(),
-    eventId,
-    ...commentData,
-  };
-
-  console.log(newComment);
-
-  res.status(201).json({ message: 'success', data: newComment });
 }
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   switch (req.method) {
     case 'GET':
-      handleGet(req, res);
+      await handleGet(req, res);
       break;
     case 'POST':
-      handlePost(req, res);
+      await handlePost(req, res);
       break;
     default:
       res.status(404).json({ message: 'Not found' });

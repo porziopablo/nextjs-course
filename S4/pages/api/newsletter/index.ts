@@ -16,14 +16,13 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
     const client = await MongoClient.connect(
       process.env.NEXT_PUBLIC_MONGODB_URI as string
     );
-    const db = client.db('newsletter');
-    const collection = db.collection('emails');
+    const db = client.db('events');
+    const collection = db.collection('newsletter');
 
     await collection.insertOne({ email });
 
-    await client.close();
-
     res.status(201).json({ message: 'success' });
+    client.close();
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
