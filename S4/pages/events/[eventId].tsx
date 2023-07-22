@@ -7,6 +7,7 @@ import EventSummary from '@/components/events/EventDetail/EventSummary';
 import EventLogistics from '@/components/events/EventDetail/EventLogistics';
 import EventContent from '@/components/events/EventDetail/EventContent';
 import { PageHead } from '@/components/layout/Head/Head';
+import Comments from '@/components/Comments/Comments/Comments';
 
 // repositories
 import { getEventById, getFeaturedEvents } from '@/repositories/events';
@@ -42,6 +43,7 @@ export default function EventDetailPage({ event }: EventDetailPageProps) {
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
+      <Comments eventId={event.id} />
     </>
   );
 }
