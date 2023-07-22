@@ -23,10 +23,14 @@ function Comments(props: CommentsProps) {
   const { eventId } = props;
 
   const [showComments, setShowComments] = useState(false);
+  const [isFetchingComments, setIsFetchingComments] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
 
   function fetchComments() {
-    getComments(eventId).then(setComments);
+    setIsFetchingComments(true);
+    getComments(eventId)
+      .then(setComments)
+      .then(() => setIsFetchingComments(false));
   }
 
   function toggleCommentsHandler() {
@@ -48,6 +52,7 @@ function Comments(props: CommentsProps) {
         {showComments ? 'Hide' : 'Show'} Comments
       </button>
       {showComments && <NewComment onAddComment={addCommentHandler} />}
+      {showComments && isFetchingComments && <p>Loading...</p>}
       {showComments && <CommentList comments={comments} />}
     </section>
   );

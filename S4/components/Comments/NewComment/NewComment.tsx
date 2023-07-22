@@ -31,6 +31,10 @@ function NewComment(props: NewCommentProps) {
 
     setIsInvalid(false);
     onAddComment({ email, username, text });
+
+    emailInputRef.current!.value = '';
+    nameInputRef.current!.value = '';
+    commentInputRef.current!.value = '';
   }
 
   return (

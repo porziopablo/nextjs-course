@@ -7,9 +7,10 @@ import { NewCommentData } from '@/types/requests/comments';
 import { Comment } from '@/types/entities/comments';
 
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
+  let client: MongoClient | undefined;
   try {
     const eventId = req.query.eventId as string;
-    const client = await MongoClient.connect(
+    client = await MongoClient.connect(
       process.env.NEXT_PUBLIC_MONGODB_URI as string
     );
     const db = client.db('events');
@@ -26,14 +27,16 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
     }));
 
     res.status(200).json({ message: 'success', data });
-    client.close();
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
+  } finally {
+    client?.close();
   }
 }
 
 async function handlePost(req: NextApiRequest, res: NextApiResponse) {
+  let client: MongoClient | undefined;
   try {
     const eventId = req.query.eventId as string;
     const commentData: NewCommentData = req.body;
@@ -43,7 +46,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       return res.status(422).json({ message: 'Invalid request' });
     }
 
-    const client = await MongoClient.connect(
+    client = await MongoClient.connect(
       process.env.NEXT_PUBLIC_MONGODB_URI as string
     );
     const db = client.db('events');
@@ -57,10 +60,11 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
     };
 
     res.status(201).json({ message: 'success', data });
-    client.close();
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
+  } finally {
+    client?.close();
   }
 }
 

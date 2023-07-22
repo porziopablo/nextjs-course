@@ -6,6 +6,7 @@ import { MongoClient } from 'mongodb';
 import { NewsletterSubscriptionData } from '@/types/requests/newsletter';
 
 async function handlePost(req: NextApiRequest, res: NextApiResponse) {
+  let client: MongoClient | undefined;
   try {
     const { email }: NewsletterSubscriptionData = req.body;
 
@@ -13,7 +14,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       return res.status(422).json({ message: 'Invalid email' });
     }
 
-    const client = await MongoClient.connect(
+    client = await MongoClient.connect(
       process.env.NEXT_PUBLIC_MONGODB_URI as string
     );
     const db = client.db('events');
@@ -22,10 +23,11 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
     await collection.insertOne({ email });
 
     res.status(201).json({ message: 'success' });
-    client.close();
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
+  } finally {
+    client?.close();
   }
 }
 
