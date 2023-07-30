@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 export enum NotificationStatus {
   Success = 'success',
@@ -38,11 +38,27 @@ export function NotificationContextProvider(props: NotificationProviderProps) {
     setActiveNotification(undefined);
   }
 
+  function startTimer() {
+    const shouldNotBeCleared =
+      !activeNotification ||
+      ![NotificationStatus.Pending, NotificationStatus.Success].includes(
+        activeNotification.status
+      );
+
+    if (shouldNotBeCleared) return;
+
+    const timer = setTimeout(hideNotification, 3000);
+
+    return () => clearTimeout(timer);
+  }
+
   const context: NotificationContextData = {
     notification: activeNotification,
     showNotification,
     hideNotification,
   };
+
+  useEffect(startTimer, [activeNotification]);
 
   return (
     <NotificationContext.Provider value={context}>

@@ -2,7 +2,9 @@
 import React, { useMemo } from 'react';
 
 // types
-import { NotificationStatus } from '@/context/NotificationContext';
+import useNotificationContext, {
+  NotificationStatus,
+} from '@/context/NotificationContext';
 
 // styles
 import classes from './Notification.module.css';
@@ -15,6 +17,7 @@ interface NotificationProps {
 
 function Notification(props: NotificationProps) {
   const { title, message, status } = props;
+  const { hideNotification } = useNotificationContext();
 
   function getClassByStatus() {
     let statusClasses = '';
@@ -39,7 +42,7 @@ function Notification(props: NotificationProps) {
   const activeClasses = useMemo(getClassByStatus, [status, classes]);
 
   return (
-    <div className={activeClasses}>
+    <div className={activeClasses} onClick={hideNotification}>
       <h2>{title}</h2>
       <p>{message}</p>
     </div>
