@@ -12,6 +12,11 @@ import { Comment } from '@/types/entities/comments';
 // repositories
 import { getComments, sendComment } from '@/repositories/comments';
 
+// context
+import useNotificationContext, {
+  NotificationStatus,
+} from '@/context/NotificationContext';
+
 // styles
 import classes from './Comments.module.css';
 
@@ -22,6 +27,7 @@ interface CommentsProps {
 function Comments(props: CommentsProps) {
   const { eventId } = props;
 
+  const { showNotification } = useNotificationContext();
   const [showComments, setShowComments] = useState(false);
   const [isFetchingComments, setIsFetchingComments] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -30,7 +36,16 @@ function Comments(props: CommentsProps) {
     setIsFetchingComments(true);
     getComments(eventId)
       .then(setComments)
-      .then(() => setIsFetchingComments(false));
+      .then(() => setIsFetchingComments(false))
+      .catch((error) => {
+        console.error(error);
+        setIsFetchingComments(false);
+        showNotification({
+          title: 'Error!',
+          message: 'Comments could not be loaded',
+          status: NotificationStatus.Error,
+        });
+      });
   }
 
   function toggleCommentsHandler() {
@@ -38,8 +53,27 @@ function Comments(props: CommentsProps) {
   }
 
   async function addCommentHandler(commentData: NewCommentData) {
-    const comment = await sendComment(eventId, commentData);
-    setComments((prevComments) => [...prevComments, comment]);
+    try {
+      showNotification({
+        title: 'Sending comment...',
+        message: 'Please await',
+        status: NotificationStatus.Pending,
+      });
+      const comment = await sendComment(eventId, commentData);
+      setComments((prevComments) => [...prevComments, comment]);
+      showNotification({
+        title: 'Success!',
+        message: 'Comment was sent successfully',
+        status: NotificationStatus.Success,
+      });
+    } catch (error) {
+      console.error(error);
+      showNotification({
+        title: 'Error!',
+        message: 'Something went wrong',
+        status: NotificationStatus.Error,
+      });
+    }
   }
 
   useEffect(() => {
