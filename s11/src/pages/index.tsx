@@ -8,7 +8,7 @@ import FeaturedPosts from '@/features/posts/FeaturedPosts/FeaturedPosts';
 // types
 import { Post } from '@/types/entities/Post';
 
-const DUMMY_POSTS: Post[] = [
+export const DUMMY_POSTS: Post[] = [
   {
     slug: 'getting-started-with-nextjs-1',
     title: 'Getting Started with NextJS - Part 1',
