@@ -4,7 +4,7 @@ import path from 'path';
 import matter from 'gray-matter';
 
 // types
-import { Post } from '@/types/entities/Post';
+import { Post } from '@/types/entities/post';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 

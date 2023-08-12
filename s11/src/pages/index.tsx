@@ -6,7 +6,7 @@ import Hero from '@/components/Hero/Hero';
 import FeaturedPosts from '@/features/posts/FeaturedPosts/FeaturedPosts';
 
 // types
-import { Post } from '@/types/entities/Post';
+import { Post } from '@/types/entities/post';
 
 // helpers
 import { getFeaturedPosts } from '@/helpers/posts';

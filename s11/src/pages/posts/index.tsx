@@ -8,7 +8,7 @@ import AllPosts from '@/features/posts/AllPosts/AllPosts';
 import { getAllPosts } from '@/helpers/posts';
 
 // types
-import { Post } from '@/types/entities/Post';
+import { Post } from '@/types/entities/post';
 
 interface AllPostsPageProps {
   posts: Post[];

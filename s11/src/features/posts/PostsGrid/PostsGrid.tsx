@@ -5,7 +5,7 @@ import React from 'react';
 import PostItem from '@/features/posts/PostItem/PostItem';
 
 // types
-import { Post } from '@/types/entities/Post';
+import { Post } from '@/types/entities/post';
 
 // styles
 import classes from './PostsGrid.module.css';
