@@ -1,5 +1,9 @@
+// vendors
 import React from 'react';
 
+// components
+import PostContent from '@/features/posts/PostDetail/PostContent/PostContent';
+
 export default function PostDetailPage() {
-  return <div>PostDetailPage</div>;
+  return <PostContent />;
 }
