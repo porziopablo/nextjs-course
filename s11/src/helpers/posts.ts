@@ -8,17 +8,26 @@ import { Post } from '@/types/entities/Post';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
-export function getPostData(fileName: string): Post {
-  const fullPath = path.join(postsDirectory, fileName);
+/**
+ * It retrieves the post data from the file system based on the identifier.
+ * @param identifier either the slug or the file name of the post
+ * @returns the post data
+ */
+export function getPostData(identifier: string): Post {
+  const slug = identifier.replace(/\.md$/, '');
+  const fullPath = path.join(postsDirectory, `${slug}.md`);
   const fileContent = fs.readFileSync(fullPath, 'utf-8');
   const { data, content } = matter(fileContent);
-  const slug = fileName.replace(/\.md$/, '');
 
   return { ...data, content, slug } as Post;
 }
 
+export function getAllPostsFilenames(): string[] {
+  return fs.readdirSync(postsDirectory);
+}
+
 export function getAllPosts(): Post[] {
-  const fileNames = fs.readdirSync(postsDirectory);
+  const fileNames = getAllPostsFilenames();
   const allPosts = fileNames.map(getPostData);
   allPosts.sort((postA, postB) => (postA.date > postB.date ? -1 : 1));
 
