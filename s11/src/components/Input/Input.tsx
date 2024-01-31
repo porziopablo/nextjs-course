@@ -10,6 +10,7 @@ interface InputProps
     HTMLInputElement
   > {
   label: string;
+  customRef?: React.Ref<HTMLInputElement>;
 }
 
 interface TextAreaProps
@@ -18,26 +19,27 @@ interface TextAreaProps
     HTMLTextAreaElement
   > {
   label: string;
+  customRef?: React.Ref<HTMLTextAreaElement>;
 }
 
 export function Input(props: InputProps) {
-  const { id, label, ...rest } = props;
+  const { id, label, customRef, ...rest } = props;
 
   return (
     <div className={classes.control}>
       <label htmlFor={id}>{label}</label>
-      <input {...rest} id={id} />
+      <input ref={customRef} {...rest} id={id} />
     </div>
   );
 }
 
 export function TextArea(props: TextAreaProps) {
-  const { id, label, ...rest } = props;
+  const { id, label, customRef, ...rest } = props;
 
   return (
     <div className={classes.control}>
       <label htmlFor={id}>{label}</label>
-      <textarea {...rest} id={id} />
+      <textarea ref={customRef} {...rest} id={id} />
     </div>
   );
 }

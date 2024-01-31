@@ -8,3 +8,7 @@ export enum APP_PAGES {
 export enum PAGE_PATH_VARS {
   SLUG = '[slug]',
 }
+
+export enum API_ROUTES {
+  CONTACT = '/api/contact',
+}
