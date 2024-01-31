@@ -11,17 +11,18 @@ import { ContactRequest } from '@/types/requests/contact';
 import classes from './ContactForm.module.css';
 
 interface ContactFormProps {
-  onSubmit: (data: ContactRequest) => void;
+  onSubmit: (data: ContactRequest) => void | Promise<void>;
+  isSubmitting?: boolean;
 }
 
 export default function ContactForm(props: ContactFormProps) {
-  const { onSubmit } = props;
+  const { onSubmit, isSubmitting } = props;
 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const messageInputRef = useRef<HTMLTextAreaElement>(null);
 
-  function onSubmitHandler(event: React.FormEvent<HTMLFormElement>) {
+  async function onSubmitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const email = emailInputRef.current?.value?.trim();
@@ -30,7 +31,11 @@ export default function ContactForm(props: ContactFormProps) {
 
     if (!email || !name || !message) return;
 
-    onSubmit({ email, name, message });
+    await onSubmit({ email, name, message });
+
+    emailInputRef.current!.value = '';
+    nameInputRef.current!.value = '';
+    messageInputRef.current!.value = '';
   }
 
   return (
@@ -61,7 +66,7 @@ export default function ContactForm(props: ContactFormProps) {
           customRef={messageInputRef}
         />
         <div className={classes.actions}>
-          <button>Send Message</button>
+          <button disabled={isSubmitting}>Send Message</button>
         </div>
       </form>
     </section>
