@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 // components
 import ContactForm from '@/features/contact/ContactForm/ContactForm';
+import { PageHead } from '@/components/Layout/Head/Head';
 
 // repositories
 import { sendContact } from '@/repositories/contact.repository';
@@ -45,5 +46,10 @@ export default function ContactPage() {
     }
   }
 
-  return <ContactForm onSubmit={onSubmit} isSubmitting={isSubmitting} />;
+  return (
+    <>
+      <PageHead title="Contact" description="Contact me" />
+      <ContactForm onSubmit={onSubmit} isSubmitting={isSubmitting} />
+    </>
+  );
 }

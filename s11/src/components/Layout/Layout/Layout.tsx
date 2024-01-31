@@ -4,6 +4,7 @@ import React from 'react';
 // components
 import Notification from '@/components/Notification/Notification';
 import MainNavigation from '../MainNavigation/MainNavigation';
+import GeneralHead from '../Head/Head';
 
 // hooks
 import useNotificationContext from '@/context/NotificationContext';
@@ -18,6 +19,7 @@ export default function Layout(props: LayoutProps) {
 
   return (
     <>
+      <GeneralHead />
       <MainNavigation />
       <main>{children}</main>
       {notification && <Notification {...notification} />}

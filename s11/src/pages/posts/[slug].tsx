@@ -4,6 +4,7 @@ import { GetServerSidePropsContext } from 'nextjs-routes';
 
 // components
 import PostContent from '@/features/posts/PostDetail/PostContent/PostContent';
+import { PageHead } from '@/components/Layout/Head/Head';
 
 // types
 import { APP_PAGES } from '@/types/internal/pages';
@@ -18,7 +19,12 @@ interface PostDetailPageProps {
 
 export default function PostDetailPage(props: PostDetailPageProps) {
   const { post } = props;
-  return <PostContent post={post} />;
+  return (
+    <>
+      <PageHead title={post.title} description={post.excerpt} />
+      <PostContent post={post} />
+    </>
+  );
 }
 
 type Context = GetServerSidePropsContext<`${APP_PAGES.POST_DETAIL_SLUG}`>;

@@ -1,10 +1,14 @@
 // vendors
 import React, { useMemo } from 'react';
+import ReactDOM from 'react-dom';
 
 // hooks
 import useNotificationContext, {
   NotificationStatus,
 } from '@/context/NotificationContext';
+
+// constants
+import { NOTIFICATIONS_ROOT_ID } from '@/pages/_document';
 
 // styles
 import classes from './Notification.module.css';
@@ -37,11 +41,12 @@ function Notification(props: NotificationProps) {
 
   const className = useMemo(getClasses, [status, classes]);
 
-  return (
+  return ReactDOM.createPortal(
     <div className={className} onClick={hideNotification}>
       <h2>{title}</h2>
       <p>{message}</p>
-    </div>
+    </div>,
+    document.getElementById(NOTIFICATIONS_ROOT_ID) as HTMLElement
   );
 }
 
