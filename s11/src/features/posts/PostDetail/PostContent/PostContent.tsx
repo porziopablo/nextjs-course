@@ -1,12 +1,14 @@
 // vendors
 import React from 'react';
 import Image from 'next/image';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import atomDark from 'react-syntax-highlighter/dist/cjs/styles/prism/atom-dark';
 import {
   ReactMarkdown,
   ReactMarkdownOptions,
 } from 'react-markdown/lib/react-markdown';
+import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript';
+import css from 'react-syntax-highlighter/dist/cjs/languages/prism/css';
 
 // components
 import PostHeader from '../PostHeader/PostHeader';
@@ -16,6 +18,9 @@ import { Post } from '@/types/entities/post';
 
 // styles
 import classes from './PostContent.module.css';
+
+SyntaxHighlighter.registerLanguage('js', js);
+SyntaxHighlighter.registerLanguage('css', css);
 
 const components: ReactMarkdownOptions['components'] = {
   img(image) {
