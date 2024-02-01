@@ -9,7 +9,7 @@ import { PageHead } from '@/components/Layout/Head/Head';
 import { getAllPosts } from '@/helpers/posts';
 
 // types
-import { Post } from '@/types/entities/post';
+import { Post } from '@/interfaces/entities/post';
 
 interface AllPostsPageProps {
   posts: Post[];

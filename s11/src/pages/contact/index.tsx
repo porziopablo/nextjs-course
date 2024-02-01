@@ -9,7 +9,7 @@ import { PageHead } from '@/components/Layout/Head/Head';
 import { sendContact } from '@/repositories/contact.repository';
 
 // types
-import { ContactRequest } from '@/types/requests/contact';
+import { ContactRequest } from '@/interfaces/requests/contact';
 
 // hooks
 import useNotificationContext, {

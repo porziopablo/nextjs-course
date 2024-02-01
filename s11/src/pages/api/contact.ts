@@ -3,8 +3,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient } from 'mongodb';
 
 // types
-import { ContactRequest } from '@/types/requests/contact';
-import { Message } from '@/types/entities/message';
+import { ContactRequest } from '@/interfaces/requests/contact';
+import { Message } from '@/interfaces/entities/message';
 
 async function handleAddContact(req: NextApiRequest, res: NextApiResponse) {
   let client: MongoClient | undefined;

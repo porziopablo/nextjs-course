@@ -7,7 +7,7 @@ import FeaturedPosts from '@/features/posts/FeaturedPosts/FeaturedPosts';
 import { PageHead } from '@/components/Layout/Head/Head';
 
 // types
-import { Post } from '@/types/entities/post';
+import { Post } from '@/interfaces/entities/post';
 
 // helpers
 import { getFeaturedPosts } from '@/helpers/posts';

@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 
 // types
-import { APP_PAGES } from '@/types/internal/pages';
+import { APP_PAGES } from '@/interfaces/internal/pages';
 
 // components
 import Logo from '../Logo/Logo';

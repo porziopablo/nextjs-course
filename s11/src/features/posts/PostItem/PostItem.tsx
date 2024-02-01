@@ -4,8 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 // types
-import { Post } from '@/types/entities/post';
-import { APP_PAGES, PAGE_PATH_VARS } from '@/types/internal/pages';
+import { Post } from '@/interfaces/entities/post';
+import { APP_PAGES, PAGE_PATH_VARS } from '@/interfaces/internal/pages';
 
 // helpers
 import { formatDate } from '@/helpers/date';

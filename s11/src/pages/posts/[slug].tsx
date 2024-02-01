@@ -7,8 +7,8 @@ import PostContent from '@/features/posts/PostDetail/PostContent/PostContent';
 import { PageHead } from '@/components/Layout/Head/Head';
 
 // types
-import { APP_PAGES } from '@/types/internal/pages';
-import { Post } from '@/types/entities/post';
+import { APP_PAGES } from '@/interfaces/internal/pages';
+import { Post } from '@/interfaces/entities/post';
 
 // helpers
 import { getAllPostsFilenames, getPostData } from '@/helpers/posts';

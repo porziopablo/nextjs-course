@@ -14,7 +14,7 @@ import css from 'react-syntax-highlighter/dist/cjs/languages/prism/css';
 import PostHeader from '../PostHeader/PostHeader';
 
 // types
-import { Post } from '@/types/entities/post';
+import { Post } from '@/interfaces/entities/post';
 
 // styles
 import classes from './PostContent.module.css';

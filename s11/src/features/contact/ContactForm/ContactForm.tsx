@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 import { Input, TextArea } from '@/components/Input/Input';
 
 // types
-import { ContactRequest } from '@/types/requests/contact';
+import { ContactRequest } from '@/interfaces/requests/contact';
 
 // styles
 import classes from './ContactForm.module.css';

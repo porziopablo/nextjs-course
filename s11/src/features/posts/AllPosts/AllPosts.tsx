@@ -5,7 +5,7 @@ import React from 'react';
 import PostsGrid from '../PostsGrid/PostsGrid';
 
 // types
-import { Post } from '@/types/entities/post';
+import { Post } from '@/interfaces/entities/post';
 
 // styles
 import classes from './AllPosts.module.css';

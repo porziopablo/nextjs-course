@@ -1,7 +1,7 @@
 // types
-import { Message } from '@/types/entities/message';
-import { API_ROUTES } from '@/types/internal/pages';
-import { ContactRequest } from '@/types/requests/contact';
+import { Message } from '@/interfaces/entities/message';
+import { API_ROUTES } from '@/interfaces/internal/pages';
+import { ContactRequest } from '@/interfaces/requests/contact';
 
 export function sendContact(data: ContactRequest): Promise<Message> {
   return fetch(API_ROUTES.CONTACT, {
