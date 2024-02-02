@@ -1,6 +1,6 @@
 // helpers
 import { hashPassword } from '../../../helpers/auth';
-import { connectToDatabase } from '../../../helpers/db';
+import { connectToDb } from '../../../helpers/db';
 
 const MIN_PASSWORD_LENGTH = 7;
 
@@ -14,15 +14,22 @@ async function signUp(req, res) {
       !email ||
       !email.includes('@') ||
       !password ||
-      !password.trim().length < MIN_PASSWORD_LENGTH
+      password.trim().length < MIN_PASSWORD_LENGTH
     ) {
       return res.status(422).json({ message: 'Invalid input' });
     }
 
-    const hashedPassword = await hashPassword(password);
-
-    client = await connectToDatabase();
+    client = await connectToDb();
     const db = client.db();
+
+    const existingUser = await db.collection('users').findOne({ email });
+
+    if (existingUser) {
+      res.status(422).json({ message: 'User exists already' });
+      return;
+    }
+
+    const hashedPassword = await hashPassword(password);
     const result = await db
       .collection('users')
       .insertOne({ email, password: hashedPassword });
